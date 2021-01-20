@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% set active_page = 'message' %}
+{% block head %}
+    {{ super() }}
+    <!-- 구독 표 생성 jsgrid -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jsgrid/jsgrid-theme.min.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-12 mt-2">
+            <div class="row">
+            <div class="card mr-2">
+                <div class="card-header">
+                    <h3 class="card-title">메세지 수신이력</h3>
+                </div>
+                <div class="card-body">
+                    <div id="messageTable" class="jsgrid" style="position: relative; height: 100%; width: 100%;">
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ super() }}
+    <!-- 구독 표 생성 jsgrid -->
+    <script src="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $("#messageTable").jsGrid({
+                width: "100%",
+                height: "800px",
+                sorting: true,
+                paging: true,
+                autoload: true,
+                controller: {
+                    loadData: function(filter) {
+                        return $.ajax({
+                            url: '/message/history/{{ user_id }}',
+                            dataType: 'json'
+                        });
+                    }
+                },
+                fields: [
+                    {name: "메세지명", type: "text", width: 100},
+                    {name: "내용", type: "text", width: 300},
+                    {name: "수신시간", type: "text", width: 100},
+                ]
+            });
+        });
+    </script>
+{% endblock %}
