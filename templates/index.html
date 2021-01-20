@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% set active_page = 'message' %}
+{% block head %}
+    {{ super() }}
+    <!-- 구독 표 생성 jsgrid -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jsgrid/jsgrid-theme.min.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0"> Top Navigation <small>Example 3.0</small></h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Layout</a></li>
+                <li class="breadcrumb-item active">Top Navigation</li>
+            </ol>
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+{% endblock %}
+{% block javascripts %}
+    {{ super() }}
+    <!-- 구독 표 생성 jsgrid -->
+    <script src="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+        });
+    </script>
+{% endblock %}
