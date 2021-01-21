@@ -23,15 +23,15 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/adminlte.min.css') }}">
     {% endblock %}
 </head>
-<body class="hold-transition layout-top-nav">
+<body class="hold-transition layout-top-nav layout-navbar-fixed">
 <div class="wrapper">
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
         <div class="container">
             <a href="/" class="navbar-brand">
-                <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
-                     class="brand-image img-circle elevation-3" style="opacity: .8">
+                {#<img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                     class="brand-image img-circle elevation-3" style="opacity: .8">#}
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
             </a>
 
@@ -194,11 +194,12 @@
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
                 </li>
-                <li class="nav-item">
+                <!-- 커스터마이징 컨트롤 -->
+                {#<li class="nav-item">
                     <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
                         <i class="fas fa-th-large"></i>
                     </a>
-                </li>
+                </li>#}
             </ul>
         </div>
     </nav>
