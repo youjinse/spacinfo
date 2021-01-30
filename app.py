@@ -4,8 +4,13 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def hello_world():
+def index():
     return render_template('index.html')
+
+
+@app.route('/editor')
+def text_editor():
+    return render_template('textEditor.html')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block head %}
+    {{ super() }}
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title m-0">글쓰기</h5>
+                </div>
+                <div class="card-body">
+                    <div id="summernote"></div>
+                    <div onclick="saveData()" class="btn btn-secondary">작성완료</div>
+                    <a href="#" class="btn btn-secondary">취소</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.col-md-6 -->
+    </div>
+    <!-- /.row -->
+{% endblock %}
+{% block javascripts %}
+    {{ super() }}
+    <!-- include summernote css/js -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <script src="{{ url_for('static', filename='js/textEditor.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                placeholder: '작성하고 싶은 글을 작성하세요',
+            });
+        });
+    </script>
+{% endblock %}

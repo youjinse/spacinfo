@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% set active_page = 'message' %}
 {% block head %}
     {{ super() }}
 {% endblock %}
@@ -217,63 +216,7 @@
 {% endblock %}
 {% block javascripts %}
     {{ super() }}
-    <script src="{{ url_for('static', filename= 'dist/js/demo.js') }}"></script>
-    {#<script src="{{ url_for('static', filename= 'dist/js/pages/dashboard2.js') }} "></script>#}
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
-        var options = {
-            chart: {
-                type: 'candlestick',
-                toolbar: {
-                    show: false,
-                },
-                height: 180,
-                width: '100%',
-            },
-            series: [{
-                name: 'sales',
-                data: [
-                    {
-                        x: '2021.01.01',
-                        y: [51.98, 56.29, 51.59, 53.85]
-                    },
-                    {
-                        x: '2021.01.02',
-                        y: [53.66, 54.99, 51.35, 52.95]
-                    },
-                    {
-                        x: '2021.01.03',
-                        y: [51.98, 56.29, 51.59, 53.85]
-                    },
-                    {
-                        x: '2021.01.04',
-                        y: [51.98, 56.29, 51.59, 53.85]
-                    },
-                    {
-                        x: '2021.01.05',
-                        y: [53.66, 54.99, 51.35, 52.95]
-                    },
-                    {
-                        x: '2021.01.06',
-                        y: [51.98, 56.29, 51.59, 53.85]
-                    },
-                    {
-                        x: '2021.01.07',
-                        y: [53.66, 54.99, 51.35, 52.95]
-                    },
-                    {
-                        x: '2021.01.08',
-                        y: [51.98, 56.29, 51.59, 53.85]
-                    },
-                    {
-                        x: '2021.01.09',
-                        y: [53.66, 54.99, 51.35, 52.95]
-                    },
-                ]
-            }],
-        }
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
         $(document).ready(function () {
         });
     </script>
