@@ -23,42 +23,20 @@
             <div class="table-responsive mailbox-messages">
                 <table class="table table-hover">
                     <tbody>
+                    {% for item in post_data %}
                     <tr>
                         <td class="mailbox-subject">
-                            <p class="m-0"><b>테스크 글 입니다.</b></p>
+                            <p class="m-0"><b>{{ item.subject }}</b></p>
                             <p class="m-0">
-                                [카테고리] 게시자
+                                [{{ item.category_name }}] {{ item.user_name }}
                                 <span class="float-right">
-                                    시간
+                                    {{ item.post_create_time }}
                                 </span>
                             </p>
                         </td>
                         {#<td class="mailbox-attachment"></td>#}
                     </tr>
-                    <tr>
-                        <td class="mailbox-subject">
-                            <p class="m-0">테스크 글 입니다.</p>
-                            <p class="m-0">[카테고리] 게시자</p>
-                        </td>
-                        {#<td class="mailbox-attachment"></td>#}
-                        {#<td class="mailbox-date">5 mins ago</td>#}
-                    </tr>
-                    <tr>
-                        <td class="mailbox-subject">
-                            <p class="m-0"><b>테스크 글 입니다.</b></p>
-                            <p class="m-0">[카테고리] 게시자</p>
-                        </td>
-                        {#<td class="mailbox-attachment"></td>#}
-                        {#<td class="mailbox-date">5 mins ago</td>#}
-                    </tr>
-                    <tr>
-                        <td class="mailbox-subject">
-                            <p class="m-0">테스크 글 입니다.</p>
-                            <p class="m-0">[카테고리] 게시자</p>
-                        </td>
-                        {#<td class="mailbox-attachment"></td>#}
-                        {#<td class="mailbox-date">5 mins ago</td>#}
-                    </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
                 <!-- /.table -->
