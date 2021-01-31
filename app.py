@@ -2,7 +2,7 @@ from flask import Flask, render_template, g, jsonify, request
 from db import db_connect
 from post import post_list, post
 from log import logging
-from jinja2 import Template
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -34,6 +34,21 @@ def make_post(category):
     return jsonify({
         'result': result
     })
+
+
+@app.route('/upload/image', methods=['POST'])
+def upload_image():
+    if 'file' not in request.files:
+        return jsonify({
+            'result': 'Fail'
+        })
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({
+            'result': 'Fail'
+        })
+    logging.info(type(file))
+
 
 
 @app.route('/post/<category>/<post_id>')
