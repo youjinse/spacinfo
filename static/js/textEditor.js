@@ -45,8 +45,9 @@ function sendFile(file, el) {
         contentType: false,
         enctype: 'multipart/form-data',
         processData: false,
-        success: function (img_name) {
-            $(el).summernote('editor.insertImage', img_name);
+        success: function (data) {
+            console.log(data)
+            $(el).summernote('editor.insertImage', data.fileUrl);
         }
     });
 }

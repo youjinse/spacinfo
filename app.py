@@ -1,6 +1,6 @@
 from flask import Flask, render_template, g, jsonify, request
 from db import db_connect
-from post import post_list, post
+from post import post_list, post, image
 from log import logging
 
 app = Flask(__name__)
@@ -46,9 +46,12 @@ def upload_image():
         return jsonify({
             'result': 'Fail'
         })
-    logging.info(type(file.read()))
+
+    url = image.upload_image(get_blob_storage(), file.read())
+
     return jsonify({
-        'result': 'OK'
+        'result': 'OK',
+        'fileUrl': url
     })
 
 
@@ -73,8 +76,14 @@ def get_db():
     return g.mariadb
 
 
+def get_blob_storage():
+    if not hasattr(g, 'blob_storage'):
+        g.blob_storage = image.blob_connect()
+    return g.blob_storage
+
+
 @app.teardown_appcontext
-def close_db(error):
+def close_all(error):
     if hasattr(g, 'mariadb'):
         g.mariadb.close()
         logging.info("DB Connection closed")
