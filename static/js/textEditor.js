@@ -1,6 +1,5 @@
 function saveData(category){
     let markupStr = $("#summernote").summernote('code');
-    console.log(markupStr);
 
     // 팝업창을 위한 설정
     let Toast = Swal.mixin({
