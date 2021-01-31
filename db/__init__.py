@@ -42,7 +42,6 @@ def select(con: mysql.connector.MySQLConnection, sql: str) -> list:
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
-        con.close()
     except Exception as e:
         logging.error(f'DB Select 중 에러가 발생하였습니다. sql: {sql}')
         logging.error(f'{e}')
@@ -56,7 +55,6 @@ def insert(con: mysql.connector.MySQLConnection, sql: str) -> int:
         cursor.execute(sql)
         con.commit()
         cursor.close()
-        con.close()
     except mysql.connector.IntegrityError as e:
         logging.error(f'DB insert 데이터가 중복되었습니다. sql: {sql}')
         logging.error(f'{e}')

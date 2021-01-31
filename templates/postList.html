@@ -19,7 +19,8 @@
                             <i class="fas fa-chevron-left"></i>
                         </button>
                         {% endif %}
-                        <button type="button" class="btn btn-default btn-sm" onclick="location.href='/post/{{ category_name }}/{{ category }}">
+                        <button type="button" class="btn btn-default btn-sm"
+                                onclick="location.href='/post/{{ category_name }}/{{ category }}?page={{ current_page }}&seq={{ post_data[-1].post_id }}'">
                             <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>

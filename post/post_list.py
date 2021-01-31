@@ -16,7 +16,7 @@ def get_post_count(cnx, category_code: int, limit_count=20.0):
         logging.error("DB 연결에 실패하였습니다.")
         return []
 
-    return math.ceil(int(result['total_count']) / limit_count)
+    return math.ceil(int(result[0]['total_count']) / limit_count)
 
 
 def get_post_list(cnx, category_code: int, current_seq: int, limit_count=20) -> list:

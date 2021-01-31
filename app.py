@@ -79,6 +79,7 @@ def view_spacinfo(category):
                            category=category,
                            category_name=category_name,
                            current_page=current_page,
+                           last_post_id = last_post_id,
                            total_pages=total_pages,
                            post_data=post_list_data)
 
