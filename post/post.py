@@ -36,7 +36,6 @@ def create_post(cnx, subject: str, category_code: int, user_code: int, contents:
     return True if insert(cnx, sql) == 0 else False
 
 
-
 if __name__ == '__main__':
     from db import db_connect
     con = db_connect()

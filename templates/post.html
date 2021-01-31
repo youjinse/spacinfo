@@ -1,74 +1,27 @@
-<div class="col-md-12">
-    <div class="card">
-        <div class="card-body p-0">
-            <div class="mailbox-controls">
-                <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
-                <button type="button" class="btn btn-default btn-sm" onclick="location.href='/post/{{ category }}'">
-                    글쓰기
-                </button>
-                <div class="float-right">
-                    1-50/200
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <!-- /.btn-group -->
+{% extends "base.html" %}
+{% block head %}
+    {{ super() }}
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title m-0">{{ post_data.subject }}</h5>
                 </div>
-                <!-- /.float-right -->
-            </div>
-            <div class="table-responsive mailbox-messages">
-                <table class="table table-hover">
-                    <tbody>
-                    {% for item in post_data %}
-                    <tr>
-                        <td class="mailbox-subject">
-                            <p class="m-0"><b>{{ item.subject }}</b></p>
-                            <p class="m-0">
-                                [{{ item.category_name }}] {{ item.user_name }}
-                                <span class="float-right">
-                                    {{ item.post_create_time }}
-                                </span>
-                            </p>
-                        </td>
-                        {#<td class="mailbox-attachment"></td>#}
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-                <!-- /.table -->
-            </div>
-            <!-- /.mail-box-messages -->
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer p-0">
-            <div class="mailbox-controls">
-                <button type="button" class="btn btn-default btn-sm">
-                    <i class="fas fa-sync-alt"></i>
-                </button>
-                <button type="button" class="btn btn-default btn-sm" onclick="location.href='/post/{{ category }}'">
-                    글쓰기
-                </button>
-                <div class="float-right">
-                    1-50/200
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-sm">
-                            <i class="fas fa-chevron-left"></i>
-                        </button>
-                        <button type="button" class="btn btn-default btn-sm">
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                    <!-- /.btn-group -->
+                <div class="card-body">
+                    {{ post_data.contents|safe}}
                 </div>
-                <!-- /.float-right -->
             </div>
-        </div>
     </div>
-    <!-- /.card -->
-</div>
+    <!-- /.row -->
+{% endblock %}
+{% block javascripts %}
+    {{ super() }}
+    <script>
+        $(document).ready(function () {
+        });
+    </script>
+{% endblock %}

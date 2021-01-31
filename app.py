@@ -2,6 +2,7 @@ from flask import Flask, render_template, g, jsonify, request
 from db import db_connect
 from post import post_list, post
 from log import logging
+from jinja2 import Template
 
 app = Flask(__name__)
 
@@ -33,6 +34,13 @@ def make_post(category):
     return jsonify({
         'result': result
     })
+
+
+@app.route('/post/<category>/<post_id>')
+def view_post(category, post_id):
+    post_data = post.get_post(db_connect(), post_id)
+    # post_data['contents'] = Template(post_data['contents'])
+    return render_template('post.html', post_data=post_data)
 
 
 @app.route('/post/spacinfo/<category>', methods=['GET'])
