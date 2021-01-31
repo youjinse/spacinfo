@@ -47,7 +47,9 @@ function sendFile(file, el) {
         processData: false,
         success: function (data) {
             console.log(data)
-            $(el).summernote('editor.insertImage', data.fileUrl);
+            $(el).summernote('editor.insertImage', data.fileUrl, function ($image){
+                $image.css('max-width', '100%;')
+            });
         }
     });
 }
