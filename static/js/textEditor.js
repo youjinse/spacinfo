@@ -48,7 +48,7 @@ function sendFile(file, el) {
         success: function (data) {
             console.log(data)
             $(el).summernote('editor.insertImage', data.fileUrl, function ($image){
-                $image.css('max-width', '100%;')
+                $image.css('max-width', '100%')
             });
         }
     });
