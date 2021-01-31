@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, jsonify
+from flask import Flask, render_template, g, jsonify, request
 from db import db_connect
 from post import post_list, post
 from log import logging
@@ -13,17 +13,20 @@ def index():
 
 @app.route('/post/<category>', methods=['GET'])
 def text_editor(category):
-    return render_template('textEditor.html')
+    return render_template('textEditor.html', category=category)
 
 
 @app.route('/post/<category>', methods=['POST'])
 def make_post(category):
     # subject: str, category_code: int, user_code: int, contents: str
+    subject = request.form['subject']
+    contents = request.form['contents']
+
     post_data = {
-        'subject': '테스트',
-        'category_code': 1,
+        'subject': subject,
+        'category_code': category,
         'user_code': 1,
-        'contents': '테스트입니다.'
+        'contents': contents
     }
     result = 'OK' if post.create_post(get_db(), **post_data) else 'Fail'
 
