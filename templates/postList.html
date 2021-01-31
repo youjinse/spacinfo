@@ -9,11 +9,16 @@
                     글쓰기
                 </button>
                 <div class="float-right">
-                    1-50/200
+                    <span class="p-1">
+                        <input type="number" id="cur_page" value="{{ current_page }}" maxlength="6" style="border:1px solid #ccc;width: 45px;text-align: right;padding: 0 5px 0 0;">
+                         / {{ total_pages }}
+                    </span>
                     <div class="btn-group">
+                        {% if current_page != 1 %}
                         <button type="button" class="btn btn-default btn-sm">
                             <i class="fas fa-chevron-left"></i>
                         </button>
+                        {% endif %}
                         <button type="button" class="btn btn-default btn-sm">
                             <i class="fas fa-chevron-right"></i>
                         </button>

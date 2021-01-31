@@ -67,6 +67,8 @@ def view_spacinfo(category):
     post_list_data = post_list.get_post_list(get_db(), category)
     return render_template('spacinfo.html',
                            category=category,
+                           current_page=2,
+                           total_pages=2,
                            post_data=post_list_data)
 
 
