@@ -50,20 +50,3 @@ function sendFile(file, el) {
         }
     });
 }
-
-$(document).ready(function () {
-    $('#summernote').summernote({
-        placeholder: '작성하고 싶은 글을 작성하세요',
-        height: 410,
-        callbacks: {
-            onImageUpload: function (files) {
-                // upload image to server and create imgNode...
-                for (let i = files.length - 1; i >= 0; i--) {
-                    console.log("1234" + files[i]);
-                    sendFile(files[i], this);
-                }
-                $summernote.summernote('insertNode', imgNode);
-            }
-        }
-    });
-});
