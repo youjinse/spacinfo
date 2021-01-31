@@ -64,11 +64,22 @@ def view_post(category, post_id):
 
 @app.route('/post/spacinfo/<category>', methods=['GET'])
 def view_spacinfo(category):
-    post_list_data = post_list.get_post_list(get_db(), category)
+    category_name = 'spacinfo'
+    data = request.args.to_dict()
+    if 'seq' not in data:
+        current_page = 1
+        last_post_id = 99999999999
+    else:
+        last_post_id = data['seq']
+        current_page = int(data['page']) + 1
+
+    total_pages = post_list.get_post_count(get_db(), category)
+    post_list_data = post_list.get_post_list(get_db(), category, last_post_id)
     return render_template('spacinfo.html',
                            category=category,
-                           current_page=2,
-                           total_pages=2,
+                           category_name=category_name,
+                           current_page=current_page,
+                           total_pages=total_pages,
                            post_data=post_list_data)
 
 
