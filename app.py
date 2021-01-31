@@ -2,7 +2,6 @@ from flask import Flask, render_template, g, jsonify, request
 from db import db_connect
 from post import post_list, post
 from log import logging
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -47,8 +46,10 @@ def upload_image():
         return jsonify({
             'result': 'Fail'
         })
-    logging.info(type(file))
-
+    logging.info(type(file.read()))
+    return jsonify({
+        'result': 'OK'
+    })
 
 
 @app.route('/post/<category>/<post_id>')
