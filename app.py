@@ -84,6 +84,16 @@ def view_spacinfo(category):
                            post_data=post_list_data)
 
 
+@app.route('/login', methods=['GET'])
+def view_login_page():
+    return render_template('login.html')
+
+
+@app.route('/register', methods=['GET'])
+def view_register_page():
+    return render_template('register.html')
+
+
 def get_db():
     if not hasattr(g, 'mariadb'):
         g.mariadb = db_connect()

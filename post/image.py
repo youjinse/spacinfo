@@ -11,6 +11,7 @@ def blob_connect():
 def upload_image(service: BlobServiceClient, data, container_name='post'):
     blob_name = str(uuid4())
     logging.debug(len(data))
+    # blob 컨테이너가 먼저 만들어져 있어야 저장이 가능함
     container_client = service.get_container_client(container_name)
     container_client.upload_blob(name=blob_name, data=data)
 

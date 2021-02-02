@@ -1,401 +1,90 @@
-{% extends "base.html" %}
-{% set active_page = 'register' %}
+{% extends "base_login.html" %}
 {% block head %}
     {{ super() }}
-    <!-- 구독 표 생성 jsgrid -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/jsgrid/jsgrid-theme.min.css') }}">
-    <!-- select 에 검색 기능 추가 -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2/css/select2.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-    <!-- 성공 실패 모달 -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 {% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-sm-12 col-lg-6 col-6 mt-2">
-            <div class="row">
-            <div class="card mr-2">
-                <div class="card-header">
-                    <h3 class="card-title">구독목록</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="input-group p-2">
-                            <input id="subscriptionName" type="text" class="form-control" placeholder="구독명을 입력하세요">
-                            <span class="input-group-append">
-                                <button id="subscriptionSearchBtn" onclick="searchSubscription();" type="button" class="btn btn-info">검색</button>
-                            </span>
-                        </div>
-                    </div>
-                    <div id="subscriptionTable" class="jsgrid" style="position: relative; height: 100%; width: 100%;">
-                    </div>
-                </div>
-            </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-lg-6 col-6 mt-2">
-            <div class="row">
-            <div class="card mr-2">
-                <div class="card-header">
-                    <h3 class="card-title">내구독</h3>
-                </div>
-                <div class="card-body">
-                    <div id="mySubscriptionTable" class="jsgrid" style="position: relative; height: 100%; width: 100%;">
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div class="row mr-1">
-            <div class="card col-12">
-                <div class="card-header">
-                    <h3 class="card-title">신규구독</h3>
-                </div>
-                <div class="card-body">
-                    <form role="form">
-                        <div class="row">
-                            <div class="col-12">
-                            <div class="form-group">
-                                <label>구독명</label>
-                                <input id="newName" type="text" class="form-control">
-                                <label class="mt-2">설명</label>
-                                <input id="newDescription" type="text" class="form-control">
-                                <div class="col-12 p-0">
-                                    <div class="row">
-                                    <div class="col-4">
-                                    <label class="mt-2">그룹</label>
-                                    <select id="newGroup" class="form-control">
-                                        {% for data in group_list %}
-                                        <option value="{{ data.id }}">{{ data.name }}</option>
-                                        {% endfor %}
-                                    </select>
-                                    </div>
-                                    <div class="col-4">
-                                    <label class="mt-2">등급</label>
-                                    <select id="newLevel" class="form-control">
-                                        <option value="0">일반</option>
-                                        <option value="1">위험</option>
-                                    </select>
-                                    </div>
-                                    <div class="col-4">
-                                        <label class="mt-2">구독승인방식</label>
-                                        <select id="newApprove" class="form-control">
-                                        <option value="0">자동승인</option>
-                                        <option value="1">관리자승인</option>
-                                    </select>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 mt-3 pl-0">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <button id="msgSave" onclick="makeNewSubscription();" type="button" class="btn btn-block btn-primary">저장</button>
-                                        </div>
-                                        <div class="col-3">
-                                            <button id="msgClear" onclick="clearNewSubscription();" type="button" class="btn btn-block btn-secondary">초기화</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            </div>
-        </div>
+<div class="register-box">
+    <div class="login-logo">
+        <b>RESPAC</b>
     </div>
-    <div class="modal fade" id="subModal" style="display: none;" aria-modal="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">구독 신청</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="modalClose();">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form role="form">
-                    <div class="row">
-                        <div class="col-12">
-                        <div class="form-group">
-                            <label>구독명</label>
-                            <input id="modalSubName" type="text" class="form-control" disabled>
-                            <label class="mt-2">설명</label>
-                            <input id="modalSubDescription" type="text" class="form-control" disabled>
-                            <input id="modalSubID" type="text" class="form-control" hidden>
-                        </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer justify-content-between">
-              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="modalClose();">닫기</button>
-              <button type="button" class="btn btn-primary" onclick="registerSubscription();">신청</button>
+
+    <div class="card">
+    <div class="card-body register-card-body">
+      <p class="login-box-msg">Register a new membership</p>
+
+      <form action="../../index.html" method="post">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Full name">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
             </div>
           </div>
-          <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Email">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="Retype password">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-8">
+            <div class="icheck-primary">
+              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+              <label for="agreeTerms">
+               I agree to the <a href="#">terms</a>
+              </label>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center">
+        <p>- OR -</p>
+        <a href="#" class="btn btn-block btn-primary">
+          <i class="fab fa-facebook mr-2"></i>
+          Sign up using Facebook
+        </a>
+        <a href="#" class="btn btn-block btn-danger">
+          <i class="fab fa-google-plus mr-2"></i>
+          Sign up using Google+
+        </a>
       </div>
+
+      <a href="login.html" class="text-center">I already have a membership</a>
+    </div>
+    <!-- /.form-box -->
+  </div><!-- /.card -->
+</div>
+<!-- /.register-box -->
 {% endblock %}
 {% block javascripts %}
     {{ super() }}
-    <!-- 구독 표 생성 jsgrid -->
-    <script src="{{ url_for('static', filename='plugins/jsgrid/jsgrid.min.js') }}"></script>
-    <!-- select 에 검색 추가 -->
-    <script src="{{ url_for('static', filename='plugins/select2/js/select2.full.min.js') }}"></script>
-    <!-- 성공 실패 모달 -->
-    <script src="{{ url_for('static', filename='plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
-        function modalClose() {
-            $("#subModal").modal('hide');
-        }
-        function modalOpen() {
-            $("#subModal").modal('show');
-        }
-
-        function clearNewSubscription() {
-            $("#newName").val("");
-            $("#newDescription").val("");
-            $("#newLevel").val("0");
-            $("#newApprove").val("0");
-        }
-
-        function makeNewSubscription() {
-            $.ajax({
-                url: '/subscription',
-                method: 'POST',
-                dataType: 'json',
-                data: {
-                    'name': $("#newName").val(),
-                    'description': $("#newDescription").val(),
-                    'group_id': $("#newGroup").val(),
-                    'level': $("#newLevel").val(),
-                    'auto_approve': $("#newApprove").val(),
-                    'user_id': {{ user_id }}
-                }
-            }).done(function (response) {
-               if (response['status'] == 1) {
-                   Swal.fire({
-                       icon: 'error',
-                       title: '구독 생성 실패',
-                       text: '구독 생성에 실패했습니다.',
-                   })
-               } else {
-                   Swal.fire({
-                       icon: 'success',
-                       title: '구독 생성 성공',
-                       text: '요청하신 구독을 생성하였습니다.',
-                   });
-                   clearNewSubscription();
-                   $("#subscriptionTable").jsGrid({
-                       controller: {
-                           loadData: function (filter) {
-                               return $.ajax({
-                                   url: '/subscription/search/',
-                                   dataType: 'json'
-                               });
-                           }
-                       },
-                   });
-                   $("#mySubscriptionTable").jsGrid({
-                       controller: {
-                           loadData: function (filter) {
-                               return $.ajax({
-                                   url: '/subscription/user/{{ user_id }}',
-                                   dataType: 'json'
-                               });
-                           }
-                       }
-                   });
-               }
-           });
-        };
-        function searchSubscription() {
-            $("#subscriptionTable").jsGrid({
-                controller: {
-                    loadData: function(filter) {
-                        return $.ajax({
-                           url: '/subscription/search/'+$("#subscriptionName").val(),
-                           dataType: 'json'
-                        });
-                    }
-                }
-            });
-        };
-
-        function registerSubscription() {
-            $.ajax({
-                url: '/subscription',
-                method: 'PUT',
-                dataType: 'json',
-                data: {
-                    'subscription_id': $("#modalSubID").val(),
-                    'user_id': {{ user_id }},
-                    'role': 1,
-                }
-            }).done(function (response){
-                modalClose();
-                if (response['status'] == 1) {
-                    Swal.fire({
-                      icon: 'error',
-                      title: '구독 실패',
-                      text: '이미 등록된 구독이거나 등록에 실패했습니다.',
-                    })
-                }
-                else {
-                    Swal.fire({
-                      icon: 'success',
-                      title: '구독 성공',
-                      text: '요청하신 구독을 등록하였습니다.',
-                    })
-                    $("#subscriptionTable").jsGrid({
-                        controller: {
-                            loadData: function (filter) {
-                                return $.ajax({
-                                    url: '/subscription/search/',
-                                    dataType: 'json'
-                                });
-                            }
-                        },
-                    });
-                    $("#mySubscriptionTable").jsGrid({
-                        controller: {
-                            loadData: function (filter) {
-                                return $.ajax({
-                                    url: '/subscription/user/{{ user_id }}',
-                                    dataType: 'json'
-                                });
-                            }
-                        }
-                    });
-                }
-            })
-        };
-
-        function cancelSubscription(subscriptionID) {
-            $.ajax({
-                url: '/subscription',
-                method: 'DELETE',
-                dataType: 'json',
-                data: {
-                    'subscription_id': subscriptionID,
-                    'user_id': {{ user_id }},
-                }
-            }).done(function (response){
-                modalClose();
-                if (response['status'] == 1) {
-                    Swal.fire({
-                      icon: 'error',
-                      title: '해지 실패',
-                      text: '구독 취소에 실패했습니다.',
-                    })
-                }
-                else {
-                    Swal.fire({
-                      icon: 'success',
-                      title: '해지 성공',
-                      text: '요청하신 구독을 해지하였습니다.',
-                    })
-                    $("#subscriptionTable").jsGrid({
-                        controller: {
-                            loadData: function (filter) {
-                                return $.ajax({
-                                    url: '/subscription/search/',
-                                    dataType: 'json'
-                                });
-                            }
-                        },
-                    });
-                    $("#mySubscriptionTable").jsGrid({
-                        controller: {
-                            loadData: function (filter) {
-                                return $.ajax({
-                                    url: '/subscription/user/{{ user_id }}',
-                                    dataType: 'json'
-                                });
-                            }
-                        }
-                    });
-                }
-            })
-        };
-
-        $(document).ready(function(){
-            $("#subscriptionName").keypress(function (event) {
-                if (event.keyCode === 13) {
-                    $("#subscriptionSearchBtn").click();
-                }
-            });
-
-            $("#mySubscriptionTable").jsGrid({
-                width: "100%",
-                height: "402px",
-                sorting: true,
-                paging: true,
-                autoload: true,
-                rowClick: function (args) {
-                  Swal.fire({
-                      title: '해당 구독을 취소할까요?',
-                      showCancelButton: true,
-                      confirmButtonText: `구독취소`,
-                      cancelButtonText: `닫기`,
-                    }).then((result) => {
-                      if (result['value']) {
-                        cancelSubscription(args.item['id']);
-                        console.log('1234');
-                      }
-                    })
-                },
-                controller: {
-                    loadData: function(filter) {
-                        return $.ajax({
-                            url: '/subscription/user/{{ user_id }}',
-                            dataType: 'json'
-                        });
-                    }
-                },
-                fields: [
-                    {name: "이름", type: "text", width: 120},
-                    {name: "설명", type: "text", width: 150},
-                    {name: "그룹", type: "text", width: 150},
-                    {name: "등급", type: "text", width: 70},
-                    {name: "자동승인", type: "text", width: 100}
-                ]
-            });
-            $("#subscriptionTable").jsGrid({
-                width: "100%",
-                height: "747px",
-                sorting: true,
-                paging: true,
-                autoload: true,
-                //data: subscription,
-                rowClick: function (args) {
-                    $("#modalSubName").val(args.item['이름']);
-                    $("#modalSubDescription").val(args.item['설명']);
-                    $("#modalSubID").val(args.item['id']);
-                    modalOpen();
-                },
-                controller: {
-                    loadData: function(filter) {
-                        return $.ajax({
-                            url: '/subscription/search/',
-                            dataType: 'json'
-                        });
-                    }
-                },
-                fields: [
-                    {name: "이름", type: "text", width: 120},
-                    {name: "설명", type: "text", width: 150},
-                    {name: "그룹", type: "text", width: 150},
-                    {name: "등급", type: "text", width: 70},
-                    {name: "자동승인", type: "text", width: 100}
-                ]
-            });
-        });
-        $('#subGroup').select2({
-          theme: 'bootstrap4'
+        $(document).ready(function () {
         });
     </script>
 {% endblock %}
