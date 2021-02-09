@@ -1,7 +1,7 @@
 from db import select, insert
 import hashlib
 from log import logging
-from user.session import save_session
+from user import session as user_session
 
 
 def check_dup_user_name(con, user_name):
@@ -56,10 +56,14 @@ def login(con, user_id: str, password: str) -> bool:
            f"AND a.password = '{password_hash}'")
 
     if len(select(con, sql)):
-        save_session(user_id)
+        user_session.save_session(user_id)
         return True
 
     return False
+
+
+def logout():
+    return user_session.logout()
 
 
 if __name__ == '__main__':

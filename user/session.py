@@ -36,6 +36,7 @@ def save_session(user_id):
         access_token = str(uuid.uuid4())
         redis_session.save_session(user_id, access_token)
         session['access_token'] = access_token
+        logging.info(session)
     except Exception as e:
         logging.error(e)
         return False
@@ -44,5 +45,6 @@ def save_session(user_id):
 
 
 def logout():
+    logging.info(session)
     del session
     return True

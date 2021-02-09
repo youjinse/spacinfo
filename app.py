@@ -1,10 +1,11 @@
-from flask import Flask, render_template, g, jsonify, request
+from flask import Flask, render_template, g, jsonify, request, session
 from db import db_connect
 from post import post_list, post, image
 from log import logging
 from user import RedisSession, user
 
 app = Flask(__name__)
+app.secret_key = 'cd48e1c22de0961d5d1bfb14f8a66e006cfb1cfbf3f0c0f3'
 
 
 @app.route('/')
@@ -90,8 +91,21 @@ def view_login_page():
     if request.method == 'POST':
         user_id = request.form['user_id']
         password = request.form['password']
-        pass
+        if user.login(db_connect(), user_id, password):
+            return jsonify({
+                'result': 'OK'
+            })
+        else:
+            return jsonify({
+                'result': 'Fail'
+            })
 
+    return render_template('login.html')
+
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    user.logout()
     return render_template('login.html')
 
 
@@ -107,7 +121,7 @@ def register_user():
     user_name = request.form['user_name']
     join_channel_code = 1 if 'join_channel_code' not in request.form else request.form['join_channel_code']
 
-    result = user.create_user(get_db(), user_id, password, user_name, join_channel_code)
+    user.create_user(get_db(), user_id, password, user_name, join_channel_code)
 
     return view_login_page()
 
