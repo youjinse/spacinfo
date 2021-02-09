@@ -19,7 +19,7 @@ def get_post_count(cnx, category_code: int, limit_count=20.0):
     return math.ceil(int(result[0]['total_count']) / limit_count)
 
 
-def get_post_list(cnx, category_code: int, current_seq: int, limit_count=20) -> list:
+def get_post_list(cnx, category_code: int, current_seq=9999999999999, limit_count=20) -> list:
     sql = (f"    SELECT b.subject, \n"
            f"           a.name AS category_name,\n"
            f"           c.name AS user_name,\n"

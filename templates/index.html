@@ -154,21 +154,82 @@
     <!-- /.report -->
     <div class="row">
         <div class="col-lg-6">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-
-                    <p class="card-text">
-                        Some quick example text to build on the card title and make up the bulk of the
-                        card's
-                        content.
-                    </p>
-
-                    <a href="#" class="card-link">Card link</a>
-                    <a href="#" class="card-link">Another link</a>
-                </div>
+            <div class="card card-outline card-tabs">
+              <div class="card-header p-0 pt-1 border-bottom-0">
+                <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill" href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home" aria-selected="true">SPAC정보</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill" href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile" aria-selected="false">주식찌라시</a>
+                  </li>
+{#                  <li class="nav-item">#}
+{#                    <a class="nav-link" id="custom-tabs-three-messages-tab" data-toggle="pill" href="#custom-tabs-three-messages" role="tab" aria-controls="custom-tabs-three-messages" aria-selected="false">Messages</a>#}
+{#                  </li>#}
+{#                  <li class="nav-item">#}
+{#                    <a class="nav-link" id="custom-tabs-three-settings-tab" data-toggle="pill" href="#custom-tabs-three-settings" role="tab" aria-controls="custom-tabs-three-settings" aria-selected="false">Settings</a>#}
+{#                  </li>#}
+                </ul>
+              </div>
+              <div class="card-body">
+                <div class="tab-content" id="custom-tabs-three-tabContent">
+                    <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel"
+                         aria-labelledby="custom-tabs-three-home-tab">
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover">
+                                <tbody>
+                                {% for item in spacinfo_data %}
+                                    <tr onclick="location.href='/post/{{ item.category_code }}/{{ item.post_id }}'">
+                                        <td class="mailbox-subject">
+                                            <p class="m-0"><b>{{ item.subject }}</b></p>
+                                            <p class="m-0">
+                                                [{{ item.category_name }}] {{ item.user_name }}
+                                                <span class="float-right">
+                                    {{ item.post_create_time }}
+                                </span>
+                                            </p>
+                                        </td>
+                                        {#<td class="mailbox-attachment"></td>#}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                <!-- /.table -->
             </div>
-
+                  </div>
+                  <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel" aria-labelledby="custom-tabs-three-profile-tab">
+                     <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover">
+                                <tbody>
+                                {% for item in stock_wind %}
+                                    <tr onclick="location.href='/post/{{ item.category_code }}/{{ item.post_id }}'">
+                                        <td class="mailbox-subject">
+                                            <p class="m-0"><b>{{ item.subject }}</b></p>
+                                            <p class="m-0">
+                                                [{{ item.category_name }}] {{ item.user_name }}
+                                                <span class="float-right">
+                                    {{ item.post_create_time }}
+                                </span>
+                                            </p>
+                                        </td>
+                                        {#<td class="mailbox-attachment"></td>#}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                <!-- /.table -->
+            </div>
+                  </div>
+{#                  <div class="tab-pane fade" id="custom-tabs-three-messages" role="tabpanel" aria-labelledby="custom-tabs-three-messages-tab">#}
+{#                     Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna.#}
+{#                  </div>#}
+{#                  <div class="tab-pane fade" id="custom-tabs-three-settings" role="tabpanel" aria-labelledby="custom-tabs-three-settings-tab">#}
+{#                     Pellentesque vestibulum commodo nibh nec blandit. Maecenas neque magna, iaculis tempus turpis ac, ornare sodales tellus. Mauris eget blandit dolor. Quisque tincidunt venenatis vulputate. Morbi euismod molestie tristique. Vestibulum consectetur dolor a vestibulum pharetra. Donec interdum placerat urna nec pharetra. Etiam eget dapibus orci, eget aliquet urna. Nunc at consequat diam. Nunc et felis ut nisl commodo dignissim. In hac habitasse platea dictumst. Praesent imperdiet accumsan ex sit amet facilisis.#}
+{#                  </div>#}
+                </div>
+              </div>
+              <!-- /.card -->
+            </div>
             <div class="card card-primary card-outline">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>

@@ -11,7 +11,11 @@ app.secret_key = 'cd48e1c22de0961d5d1bfb14f8a66e006cfb1cfbf3f0c0f3'
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    spacinfo_data = post_list.get_post_list(get_db(), 1, limit_count=5)
+    stock_wind = post_list.get_post_list(get_db(), 2, limit_count=5)
+    return render_template('index.html',
+                           spacinfo_data=spacinfo_data,
+                           stock_wind=stock_wind)
 
 
 @app.route('/post/<category>', methods=['GET'])
@@ -85,7 +89,7 @@ def view_spacinfo(category):
                            category=category,
                            category_name=category_name,
                            current_page=current_page,
-                           last_post_id = last_post_id,
+                           last_post_id=last_post_id,
                            total_pages=total_pages,
                            post_data=post_list_data)
 
