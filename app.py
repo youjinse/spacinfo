@@ -15,6 +15,7 @@ def index():
 
 
 @app.route('/post/<category>', methods=['GET'])
+@check_session
 def text_editor(category):
     return render_template('textEditor.html', category=category)
 
@@ -29,7 +30,7 @@ def make_post(category):
     post_data = {
         'subject': subject,
         'category_code': category,
-        'user_code': 1,
+        'user_code': g.user_data['user_code'],
         'contents': contents
     }
     result = 'OK' if post.create_post(get_db(), **post_data) else 'Fail'

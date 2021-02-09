@@ -14,7 +14,8 @@ class RedisSession:
     # 세션이 있으면 타임아웃 만큼 다시 연장해주고 없으면 False 있으면 사용자id 리턴
     def open_session(self, session_key):
         self.db.expire(session_key, self.timeout)
-        return self.db.get(session_key)
+        data = self.db.get(session_key)
+        return None if data is None else json.loads(data)
 
     def logout_session(self, session_key):
         self.db.delete(session_key)

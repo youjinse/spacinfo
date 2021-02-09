@@ -17,14 +17,14 @@ def check_session(original_function):
             return render_template(error_page), 403
 
         # 레디스에 세션 존재하는지 확인
-        session_id = RedisSession.RedisSession().open_session(access_token)
-        if session_id is None:
+        user_data = RedisSession.RedisSession().open_session(access_token)
+        if user_data is None:
             logging.error("레디스 세션 에러")
             return render_template(error_page), 403
 
         logging.info(session)
-        g.user_id = session_id.decode('utf-8')
-        logging.info(f"유저아이디: {g.user_id}")
+        g.user_data = user_data
+        logging.info(f"유저아이디: {g.user_data}")
         result = original_function(*args, **kwargs)
         return result
     wrapper.__name__ = original_function.__name__
