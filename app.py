@@ -13,9 +13,11 @@ app.secret_key = 'cd48e1c22de0961d5d1bfb14f8a66e006cfb1cfbf3f0c0f3'
 def index():
     spacinfo_data = post_list.get_post_list(get_db(), 1, limit_count=5)
     stock_wind = post_list.get_post_list(get_db(), 2, limit_count=5)
+    stock_discussion = post_list.get_post_list(get_db(), 3, limit_count=5)
     return render_template('index.html',
                            spacinfo_data=spacinfo_data,
-                           stock_wind=stock_wind)
+                           stock_wind=stock_wind,
+                           stock_discussion=stock_discussion)
 
 
 @app.route('/post/<category>', methods=['GET'])
