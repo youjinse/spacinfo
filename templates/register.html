@@ -13,9 +13,9 @@
       <p class="login-box-msg">신규회원 가입</p>
       <p class="login-box-msg">비밀번호는 암호화 되어 <br> 운영자도 확인할 수 없습니다.</p>
 
-      <form action="/register" method="post">
+      <form action="/user" method="post">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="이름">
+          <input type="text" class="form-control" placeholder="이름" name="user_name" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="이메일">
+          <input type="email" class="form-control" placeholder="이메일" name="user_id" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -31,7 +31,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="패스워드">
+          <input type="password" class="form-control" placeholder="패스워드" name="password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="패스워드 확인">
+          <input type="password" class="form-control" placeholder="패스워드 확인" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -57,7 +57,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">회원가입</button>
+            <button type="submit" onsubmit="return validation()" class="btn btn-primary btn-block">회원가입</button>
           </div>
           <!-- /.col -->
         </div>
@@ -75,7 +75,7 @@
         </a>
       </div>
 
-      <a href="login.html" class="text-center">I already have a membership</a>
+      <a href="login.html" class="text-center">이미 회원가입이 되어 있다면..</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->
@@ -85,6 +85,10 @@
 {% block javascripts %}
     {{ super() }}
     <script>
+        function validation() {
+            return true;
+        };
+
         $(document).ready(function () {
         });
     </script>

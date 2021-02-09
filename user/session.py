@@ -1,34 +1,48 @@
-import redis
+from user import RedisSession
+from flask import session, render_template
+from log import logging
+import uuid
+
+error_page = 'login.html'
 
 
-class RedisSession:
-    host = 'respactest.redis.cache.windows.net'
-    port = '6380'
-    password = 'IGM2PhyxnBhzP0hy4iIpm6uiMEo0yphgQo9X2Eb7e8c='
-    timeout = 3600
+# 세션이 존재하지는 체크하는 데코레이터
+# 세션 만료되었으면 로그인 페이지로 이동
+def check_session(original_function):
+    def wrapper(*args, **kwargs):
+        try:
+            access_token = session['access_token']
+        except KeyError :
+            logging.error('세션키를 찾을 수 없습니다.')
+            return render_template(error_page), 403
 
-    def __init__(self):
-        self.db = redis.StrictRedis(host=self.host, port=self.port, password=self.password, ssl=True)
+        # 레디스에 세션 존재하는지 확인
+        session_id = RedisSession.RedisSession().open_session(access_token)
+        if session_id is None:
+            logging.error("레디스 세션 에러")
+            return render_template(error_page), 403
 
-    # 세션이 있으면 타임아웃 만큼 다시 연장해주고 없으면 False 있으면 사용자id 리턴
-    def open_session(self, session_key):
-        self.db.expire(session_key, self.timeout)
-        return self.db.get(session_key)
-
-    def logout_session(self, session_key):
-        self.db.delete(session_key)
-        return True
-
-    # 신규 세션 요청 시 세션 값을 만들어서 리턴
-    def save_session(self, user_id, session_key):
-        self.db.setex(session_key, self.timeout, user_id)
-        return True
-
-    def keys(self):
-        print(self.db.keys())
+        session['user_id'] = session_id.decode('utf-8')
+        logging.info(session_id)
+        result = original_function(*args, **kwargs)
+        return result
+    wrapper.__name__ = original_function.__name__
+    return wrapper
 
 
-if __name__ == '__main__':
-    s = RedisSession()
-    s.save_session('tttt', '1234')
-    print(s.open_session('1234'))
+def save_session(user_id):
+    try:
+        redis_session = RedisSession.RedisSession()
+        access_token = str(uuid.uuid4())
+        redis_session.save_session(user_id, access_token)
+        session['access_token'] = access_token
+    except Exception as e:
+        logging.error(e)
+        return False
+
+    return True
+
+
+def logout():
+    del session
+    return True

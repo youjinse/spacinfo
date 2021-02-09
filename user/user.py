@@ -1,6 +1,7 @@
 from db import select, insert
 import hashlib
 from log import logging
+from user.session import save_session
 
 
 def check_dup_user_name(con, user_name):
@@ -19,7 +20,7 @@ def check_dup_id(con, user_id):
     return True if len(select(con, sql)) != 0 else False
 
 
-def create_user(con, user_id: str, password:str, user_name:str, join_channel_code=1):
+def create_user(con, user_id: str, password: str, user_name: str, join_channel_code=1):
     if check_dup_user_name(con, user_name):
         logging.info(f"유져명이 중복입니다. [{user_name}]")
         return 1
@@ -41,6 +42,24 @@ def create_user(con, user_id: str, password:str, user_name:str, join_channel_cod
 
 def get_user_info(con, user_id):
     pass
+
+
+def login(con, user_id: str, password: str) -> bool:
+    if check_dup_id(con, user_id) is False:
+        return False
+
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+
+    sql = (f"SELECT 1\n"
+           f"FROM respac.user a\n"
+           f"WHERE a.id = '{user_id}'\n"
+           f"AND a.password = '{password_hash}'")
+
+    if len(select(con, sql)):
+        save_session(user_id)
+        return True
+
+    return False
 
 
 if __name__ == '__main__':

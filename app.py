@@ -2,7 +2,7 @@ from flask import Flask, render_template, g, jsonify, request
 from db import db_connect
 from post import post_list, post, image
 from log import logging
-from user import session
+from user import RedisSession, user
 
 app = Flask(__name__)
 
@@ -85,14 +85,31 @@ def view_spacinfo(category):
                            post_data=post_list_data)
 
 
-@app.route('/login', methods=['GET'])
+@app.route('/login', methods=['GET', 'POST'])
 def view_login_page():
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        password = request.form['password']
+        pass
+
     return render_template('login.html')
 
 
 @app.route('/register', methods=['GET'])
 def view_register_page():
     return render_template('register.html')
+
+
+@app.route('/user', methods=['POST'])
+def register_user():
+    user_id = request.form['user_id']
+    password = request.form['password']
+    user_name = request.form['user_name']
+    join_channel_code = 1 if 'join_channel_code' not in request.form else request.form['join_channel_code']
+
+    result = user.create_user(get_db(), user_id, password, user_name, join_channel_code)
+
+    return view_login_page()
 
 
 def get_db():
@@ -109,7 +126,7 @@ def get_blob_storage():
 
 def get_redis():
     if not hasattr(g, 'redis'):
-        g.redis = session.RedisSession()
+        g.redis = RedisSession.RedisSession()
     return g.redis
 
 
