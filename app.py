@@ -2,6 +2,7 @@ from flask import Flask, render_template, g, jsonify, request
 from db import db_connect
 from post import post_list, post, image
 from log import logging
+from user import session
 
 app = Flask(__name__)
 
@@ -55,7 +56,7 @@ def upload_image():
     })
 
 
-@app.route('/post/<category>/<post_id>')
+@app.route('/post/<category>/<post_id>', methods=['GET'])
 def view_post(category, post_id):
     post_data = post.get_post(db_connect(), post_id)
     # post_data['contents'] = Template(post_data['contents'])
@@ -106,11 +107,20 @@ def get_blob_storage():
     return g.blob_storage
 
 
+def get_redis():
+    if not hasattr(g, 'redis'):
+        g.redis = session.RedisSession()
+    return g.redis
+
+
 @app.teardown_appcontext
 def close_all(error):
     if hasattr(g, 'mariadb'):
         g.mariadb.close()
         logging.info("DB Connection closed")
+    if hasattr(g, 'redis'):
+        g.redis.close()
+        logging.info("Redis Connection closed")
 
 
 if __name__ == '__main__':

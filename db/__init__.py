@@ -45,6 +45,7 @@ def select(con: mysql.connector.MySQLConnection, sql: str) -> list:
     except Exception as e:
         logging.error(f'DB Select 중 에러가 발생하였습니다. sql: {sql}')
         logging.error(f'{e}')
+        return []
 
     return result
 
@@ -58,11 +59,13 @@ def insert(con: mysql.connector.MySQLConnection, sql: str) -> int:
     except mysql.connector.IntegrityError as e:
         logging.error(f'DB insert 데이터가 중복되었습니다. sql: {sql}')
         logging.error(f'{e}')
-        return 1 # 중복
+        # 중복
+        return 1
     except Exception as e:
         logging.error(f'DB insert 중 에러가 발생하였습니다. sql: {sql}')
         logging.error(f'{e}')
-        return 2 # 에러
+        # 에러
+        return 2
 
     return 0
 
