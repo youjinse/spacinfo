@@ -1,8 +1,9 @@
-from flask import Flask, render_template, g, jsonify, request, session
+from flask import Flask, render_template, g, jsonify, request, redirect
 from db import db_connect
 from post import post_list, post, image
 from log import logging
 from user import RedisSession, user
+from user.session import check_session
 
 app = Flask(__name__)
 app.secret_key = 'cd48e1c22de0961d5d1bfb14f8a66e006cfb1cfbf3f0c0f3'
@@ -19,6 +20,7 @@ def text_editor(category):
 
 
 @app.route('/post/<category>', methods=['POST'])
+@check_session
 def make_post(category):
     # subject: str, category_code: int, user_code: int, contents: str
     subject = request.form['subject']
@@ -38,6 +40,7 @@ def make_post(category):
 
 
 @app.route('/upload/image', methods=['POST'])
+@check_session
 def upload_image():
     if 'file' not in request.files:
         return jsonify({
@@ -92,13 +95,9 @@ def view_login_page():
         user_id = request.form['user_id']
         password = request.form['password']
         if user.login(db_connect(), user_id, password):
-            return jsonify({
-                'result': 'OK'
-            })
+            return redirect('/')
         else:
-            return jsonify({
-                'result': 'Fail'
-            })
+            return redirect('/login')
 
     return render_template('login.html')
 
@@ -106,7 +105,7 @@ def view_login_page():
 @app.route('/logout', methods=['GET'])
 def logout():
     user.logout()
-    return render_template('login.html')
+    return redirect('/')
 
 
 @app.route('/register', methods=['GET'])

@@ -1,5 +1,5 @@
 from user import RedisSession
-from flask import session, render_template
+from flask import session, render_template, g
 from log import logging
 import uuid
 
@@ -22,8 +22,9 @@ def check_session(original_function):
             logging.error("레디스 세션 에러")
             return render_template(error_page), 403
 
-        session['user_id'] = session_id.decode('utf-8')
-        logging.info(session_id)
+        logging.info(session)
+        g.user_id = session_id.decode('utf-8')
+        logging.info(f"유저아이디: {g.user_id}")
         result = original_function(*args, **kwargs)
         return result
     wrapper.__name__ = original_function.__name__
@@ -46,5 +47,6 @@ def save_session(user_id):
 
 def logout():
     logging.info(session)
-    del session
+    if 'access_token' in session:
+        del session['access_token']
     return True
