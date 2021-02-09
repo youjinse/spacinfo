@@ -50,13 +50,20 @@ def login(con, user_id: str, password: str) -> bool:
 
     password_hash = hashlib.sha256(password.encode()).hexdigest()
 
-    sql = (f"SELECT 1\n"
+    sql = (f"SELECT a.code, a.id, a.name\n"
            f"FROM respac.user a\n"
            f"WHERE a.id = '{user_id}'\n"
            f"AND a.password = '{password_hash}'")
 
-    if len(select(con, sql)):
-        user_session.save_session(user_id)
+    result = select(con, sql)
+
+    if len(result) > 0:
+        data = {
+            'user_id': user_id,
+            'user_code': result[0]['code'],
+            'user_name': result[0]['name']
+        }
+        user_session.save_session(data)
         return True
 
     return False

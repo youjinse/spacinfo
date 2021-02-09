@@ -31,11 +31,11 @@ def check_session(original_function):
     return wrapper
 
 
-def save_session(user_id):
+def save_session(data):
     try:
         redis_session = RedisSession.RedisSession()
         access_token = str(uuid.uuid4())
-        redis_session.save_session(user_id, access_token)
+        redis_session.save_session(access_token, data)
         session['access_token'] = access_token
         logging.info(session)
     except Exception as e:

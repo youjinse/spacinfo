@@ -1,4 +1,5 @@
 import redis
+import json
 
 
 class RedisSession:
@@ -20,8 +21,9 @@ class RedisSession:
         return True
 
     # 신규 세션 요청 시 세션 값을 만들어서 리턴
-    def save_session(self, user_id, session_key):
-        self.db.setex(session_key, self.timeout, user_id)
+    def save_session(self, session_key, data):
+        # self.db.setex(session_key, self.timeout, user_id)
+        self.db.setex(session_key, self.timeout, json.dumps(data).encode())
         return True
 
     def keys(self):
