@@ -7,11 +7,14 @@ database = ''
 
 # Obtain connection string information from the portal
 config = {
-    'host': 'respac-test-01.mariadb.database.azure.com',
-    'user': 'respac@respac-test-01',
-    'password': 'c3IQbseW1riz',
+    # 'host': 'respac-test-01.mariadb.database.azure.com',
+    # 'user': 'respac@respac-test-01',
+    # 'password': 'c3IQbseW1riz',
+    'host': 'localhost',
+    'user': 'respacadm',
+    'password': 'credit123',
     'database': 'respac',
-    'ssl_verify_cert': True,
+    # 'ssl_verify_cert': True,
 }
 
 

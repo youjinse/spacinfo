@@ -3,13 +3,15 @@ import json
 
 
 class RedisSession:
-    host = 'respactest.redis.cache.windows.net'
-    port = '6380'
-    password = 'IGM2PhyxnBhzP0hy4iIpm6uiMEo0yphgQo9X2Eb7e8c='
+    # host = 'respactest.redis.cache.windows.net'
+    # port = '6380'
+    # password = 'IGM2PhyxnBhzP0hy4iIpm6uiMEo0yphgQo9X2Eb7e8c='
+    host = '192.168.1.41'
     timeout = 3600
 
     def __init__(self):
-        self.db = redis.StrictRedis(host=self.host, port=self.port, password=self.password, ssl=True)
+        self.db = redis.StrictRedis(host=self.host)
+        # self.db = redis.StrictRedis(host=self.host, port=self.port, password=self.password, ssl=True)
 
     # 세션이 있으면 타임아웃 만큼 다시 연장해주고 없으면 False 있으면 사용자id 리턴
     def open_session(self, session_key):
