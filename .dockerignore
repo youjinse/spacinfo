@@ -1,0 +1,5 @@
+.azure
+README.md
+venv
+__pycache__
+Dockerfile

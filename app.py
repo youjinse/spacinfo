@@ -4,6 +4,7 @@ from post import post_list, post, image
 from log import logging
 from user import RedisSession, user
 from user.session import check_session
+from user.user import check_dup_user_name, check_dup_id
 
 app = Flask(__name__)
 app.secret_key = 'cd48e1c22de0961d5d1bfb14f8a66e006cfb1cfbf3f0c0f3'
@@ -132,6 +133,20 @@ def register_user():
     return view_login_page()
 
 
+@app.route('/user/user_name/<user_name>', methods=['GET'])
+def check_user_name(user_name):
+    return jsonify({
+        'result': 'Fail' if check_dup_user_name(db_connect(), user_name) else 'OK'
+    })
+
+
+@app.route('/user/user_id/<user_id>', methods=['GET'])
+def check_user_id(user_id):
+    return jsonify({
+        'result': 'Fail' if check_dup_id(db_connect(), user_id) else 'OK'
+    })
+
+
 def get_db():
     if not hasattr(g, 'mariadb'):
         g.mariadb = db_connect()
@@ -161,4 +176,4 @@ def close_all(error):
 
 
 if __name__ == '__main__':
-    app.run(port=5000, host='192.168.1.41')
+    app.run(port=5000, host='0.0.0.0')

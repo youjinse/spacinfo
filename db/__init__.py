@@ -1,6 +1,7 @@
 from log import logging
 import mysql.connector
 from mysql.connector import errorcode
+import os
 
 password = ''
 database = ''
@@ -10,7 +11,7 @@ config = {
     # 'host': 'respac-test-01.mariadb.database.azure.com',
     # 'user': 'respac@respac-test-01',
     # 'password': 'c3IQbseW1riz',
-    'host': 'localhost',
+    'host': 'localhost' if 'COMPUTERNAME' in os.environ else 'mariadb',
     'user': 'respacadm',
     'password': 'credit123',
     'database': 'respac',

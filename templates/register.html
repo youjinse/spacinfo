@@ -1,6 +1,7 @@
 {% extends "base_login.html" %}
 {% block head %}
     {{ super() }}
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 {% endblock %}
 {% block content %}
 <div class="register-box">
@@ -13,17 +14,9 @@
       <p class="login-box-msg">신규회원 가입</p>
       <p class="login-box-msg">비밀번호는 암호화 되어 <br> 운영자도 확인할 수 없습니다.</p>
 
-      <form action="/user" method="post">
+      <form action="/user" method="post" onsubmit="return validation()">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="닉네임" name="user_name" required>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="이메일" name="user_id" required>
+          <input type="email" class="form-control" placeholder="이메일" name="user_id" id="user_id" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -31,7 +24,15 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="패스워드" name="password" required>
+          <input type="text" class="form-control" placeholder="닉네임" name="user_name" id="user_name" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-user"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+          <input type="password" class="form-control" placeholder="패스워드" name="password" id="password" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -39,7 +40,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="패스워드 확인" required>
+          <input type="password" class="form-control" placeholder="패스워드 확인" id="password_check" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -57,7 +58,7 @@
           </div>
           <!-- /.col -->
           <div class="col-4">
-            <button type="submit" onsubmit="return validation()" class="btn btn-primary btn-block">회원가입</button>
+            <button type="submit" class="btn btn-primary btn-block">회원가입</button>
           </div>
           <!-- /.col -->
         </div>
@@ -65,13 +66,17 @@
 
       <div class="social-auth-links text-center">
         <p>- OR -</p>
-        <a href="#" class="btn btn-block btn-primary">
-          <i class="fab fa-facebook mr-2"></i>
-          Sign up using Facebook
+        <a href="#" class="btn btn-block" style="background-color: #FEE500;">
+          <i class="xi-kakaotalk mr-2"></i></i>
+          카카오로 가입하기
+        </a>
+        <a href="#" class="btn btn-block" style="background-color: #19CE60; color: white;">
+          <i class="xi-naver-square mr-2"></i></i>
+          네이버로 가입하기
         </a>
         <a href="#" class="btn btn-block btn-danger">
           <i class="fab fa-google-plus mr-2"></i>
-          Sign up using Google
+          구글로 가입하기
         </a>
       </div>
 
@@ -85,11 +90,100 @@
 {% block javascripts %}
     {{ super() }}
     <script>
+        function check_name() {
+            $.ajax({
+                url: '/user/user_name/' + $("#user_name").val(),
+                method: 'GET',
+            }).done(function (response) {
+                if (response['result'] == 'Fail') {
+                    $("#user_name").removeClass('is-valid')
+                    $("#user_name").addClass('is-invalid')
+                    return false;
+                } else {
+                    $("#user_name").removeClass('is-invalid')
+                    $("#user_name").addClass('is-valid')
+                    return true;
+                }
+            });
+        };
+        function check_id() {
+            $.ajax({
+                url: '/user/user_id/' + $("#user_id").val(),
+                method: 'GET',
+            }).done(function (response) {
+                if (response['result'] == 'Fail') {
+                    $("#user_id").removeClass('is-valid')
+                    $("#user_id").addClass('is-invalid')
+                    return false;
+                } else {
+                    $("#user_id").removeClass('is-invalid')
+                    $("#user_id").addClass('is-valid')
+                    return true;
+                }
+            });
+        };
+        function check_password() {
+            if ($("#password").val() != $("#password_check").val()) {
+                $("#password").removeClass('is-valid')
+                $("#password").addClass('is-invalid')
+                $("#password_check").removeClass('is-valid')
+                $("#password_check").addClass('is-invalid')
+                return false;
+            } else {
+                $("#password").removeClass('is-invalid')
+                $("#password").addClass('is-valid')
+                $("#password_check").removeClass('is-invalid')
+                $("#password_check").addClass('is-valid')
+                return true;
+            }
+        }
         function validation() {
+            if ($("#user_name").hasClass('is-valid') == false) {
+                Swal.fire({
+                  icon: 'error',
+                  title: '닉네임이 중복입니다.',
+                })
+                return false;
+            }
+            if ($("#user_id").hasClass('is-valid') == false) {
+                Swal.fire({
+                  icon: 'error',
+                  title: '이메일이 중복입니다.',
+                })
+                return false;
+            }
+            if (check_password() == false) {
+                Swal.fire({
+                  icon: 'error',
+                  title: '패스워드가 일치하지 않습니다.',
+                })
+                return false;
+            }
             return true;
         };
 
         $(document).ready(function () {
+            $("#user_name").on("change keyup paste", function(){
+                if ($("#user_name").val() == "") {
+                    return true;
+                }else {
+                    check_name();
+                }
+            });
+            $("#user_id").on("change keyup paste", function(){
+                if ($("#user_id").val() == "") {
+                    return true;
+                }else {
+                    check_id();
+                }
+            });
+            $("#password_check").on("change keyup paste", function(){
+                if ($("#password_check").val() == "") {
+                    return true;
+                }else {
+                    check_password();
+                }
+            });
         });
     </script>
 {% endblock %}

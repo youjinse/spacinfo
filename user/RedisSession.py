@@ -1,12 +1,14 @@
 import redis
 import json
+import os
 
 
 class RedisSession:
     # host = 'respactest.redis.cache.windows.net'
     # port = '6380'
     # password = 'IGM2PhyxnBhzP0hy4iIpm6uiMEo0yphgQo9X2Eb7e8c='
-    host = '192.168.1.41'
+    # host = '192.168.1.41'
+    host = 'localhost' if 'COMPUTERNAME' in os.environ else 'redis-respac',
     timeout = 3600
 
     def __init__(self):
